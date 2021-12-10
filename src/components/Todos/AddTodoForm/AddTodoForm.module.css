@@ -1,0 +1,11 @@
+.add-task-form {
+    display: flex;
+    flex-direction: column;
+    max-width: 300px;
+    padding: 8px 4px;
+}
+
+.add-task-form__task-input,
+.add-task-submit-button {
+    margin: 4px 0;
+}
