@@ -30,15 +30,27 @@ const Todos = () => {
         setTodos([...todos.slice(0, todoIndex), ...todos.slice(todoIndex + 1)])
     }
 
+    const handleChangeTodo = (id, text) => {
+        const todoIndex = todos.findIndex((todo) => todo.id === id);
+        if(todoIndex === -1) return;
+        setTodos([
+            ...todos.slice(0, todoIndex),
+            { ...todos[todoIndex], text: text },
+            ...todos.slice(todoIndex + 1),
+        ]);
+    }
+
     return (
         <div className={styles.container}>
-            <TodosList
-                todos={todos}
-                onDelete={handleTodoDeleting}
-            />
             <AddTodoForm
                 onAddTodo={handleTodoAdding}
             />
+            <TodosList
+                todos={todos}
+                onDelete={handleTodoDeleting}
+                onChangeTodo={handleChangeTodo}
+            />
+
         </div>
     )
 }
