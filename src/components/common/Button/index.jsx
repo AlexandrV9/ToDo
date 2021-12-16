@@ -16,7 +16,6 @@ const Button = ({ variation, buttonText, ...props }) => {
 
     return (
         <button className={className}
-                type="button"
                 {...props}
         >
             {buttonText}
