@@ -3,21 +3,10 @@ import React from "react";
 import styles from "./ImagesSearchForm.module.css";
 import Input from "../../common/Input";
 import Button from "../../common/Button";
-import { searchImages } from "../../../api/imageSearchAPI";
 
-const ImagesSearchForm = ({ setImages, setTotalImages }) => {
-
-    const handleSubmitSearch = async (event) => {
-        event.preventDefault();
-        if(!(setImages && setTotalImages)) return;
-
-        const imagesData = await searchImages(event.target.imageName.value);
-        setImages(imagesData.images);
-        setTotalImages(imagesData.total);
-    }
-
+const ImagesSearchForm = ({ onSubmit }) => {
     return (
-        <form className={styles.imageSearchForm} onSubmit={handleSubmitSearch}>
+        <form className={styles.imageSearchForm} onSubmit={onSubmit}>
             <Input name="imageName" />
             <Button buttonText="Search" type="submit" />
         </form>
