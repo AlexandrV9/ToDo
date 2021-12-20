@@ -1,4 +1,4 @@
-import React  from "react";
+import React, {useCallback} from "react";
 
 import styles from './AddTodoForm.module.css';
 import Input from "../../common/Input";
@@ -32,9 +32,10 @@ const validationSchema = Yup.object().shape({
 
 const AddTodoForm = ({ onAddTodo }) => {
 
-    const handleSubmit = (values) => {
+    const handleSubmit = useCallback((values) => {
         onAddTodo && onAddTodo(values.todo);
-    }
+        }, [onAddTodo]
+    );
 
     return (
         <Formik
