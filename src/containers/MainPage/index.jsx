@@ -1,7 +1,9 @@
 import React from "react";
 
+import Clock from "../../components/Clock";
+
 const MainPage = () => {
-    return <div>Main page placeholder</div>;
+    return <Clock />;
 }
 
 export default MainPage;
