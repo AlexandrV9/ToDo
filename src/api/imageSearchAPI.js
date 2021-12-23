@@ -11,7 +11,7 @@ export const searchImages = async (query) => {
     const images = result.hits.map((image) => ({
         url: image.largeImageURL || '',
         id: image.id || -1,
-        alt: result.tags || '',
+        alt: image.tags,
     }));
     const total = result.total || 0;
     return { images, total };

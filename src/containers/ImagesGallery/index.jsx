@@ -1,25 +1,41 @@
-import React, { useCallback, useState} from "react";
+import React, { useCallback } from "react";
+import { connect } from "react-redux";
 
 import styles from './ImagesGallery.module.css';
 import ImagesSearchForm from "../../components/ImagesGallery/ImagesSearchForm";
 import ImagesList from "../../components/ImagesGallery/ImagesList";
 import {searchImages} from "../../api/imageSearchAPI";
+import {
+    SEARCH_IMAGES_START,
+    SEARCH_IMAGES_SUCCESS,
+    SEARCH_IMAGES_ERROR,
+} from "../../redux/slice/imagesGallerySlice";
+import {useDispatch} from "react-redux";
 
-const ImagesGallery = () => {
+const ImagesGallery = ({
+    images,
+    totalImages,
+    loading,
+    page,
+}) => {
 
-    const [images, setImages] = useState([]);
-    const [totalImages, setTotalImages] = useState(0);
-    const [loading, setLoadingState] = useState(false);
+    const dispatch = useDispatch();
 
     const handleSubmitSearch = useCallback(
-        async (event) => {
-            event.preventDefault();
-            if(!(setImages && setTotalImages)) return;
-            setLoadingState(true);
-            const imagesData = await searchImages(event.target.imageName.value);
-            setImages(imagesData.images);
-            setTotalImages(imagesData.total);
-            setLoadingState(false);
+        async (imageName) => {
+
+            if(loading) return;
+
+            try {
+                dispatch(SEARCH_IMAGES_START( { imageName } ));
+                const imagesData = await searchImages(imageName, page);
+                dispatch(SEARCH_IMAGES_SUCCESS({
+                    images: imagesData.images,
+                    totalImages: imagesData.total,
+                }))
+            } catch (error) {
+                dispatch(SEARCH_IMAGES_ERROR(error.message))
+            }
 
         },[loading]
     );
@@ -40,4 +56,8 @@ const ImagesGallery = () => {
     )
 }
 
-export default ImagesGallery;
+const mapStateToProps = ({
+    imagesGallery: { imageName, images, totalImages, loading, page }
+}) => ( { imageName, images, totalImages, loading, page } )
+
+export default connect(mapStateToProps)(ImagesGallery);
