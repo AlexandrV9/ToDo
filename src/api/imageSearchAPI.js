@@ -1,8 +1,8 @@
 const baseURL = 'https://pixabay.com/api/';
 const APIKey = '24848647-9c50e0191dab5764d68291abd';
 
-export const searchImages = async (query) => {
-    const response = await fetch(`${baseURL}?key=${APIKey}&q=${query}&per_page=10`);
+export const searchImages = async (query, page = 1) => {
+    const response = await fetch(`${baseURL}?key=${APIKey}&q=${query}&per_page=10&page=${page}`);
     if(!response.ok) return { images: [], total: 0 };
 
     const result = await response.json();
